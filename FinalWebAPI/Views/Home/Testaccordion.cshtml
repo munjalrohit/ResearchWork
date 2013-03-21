@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    ViewBag.Title = "Testaccordion";
+}
+
+
+<script>
+    $(function () {
+        $("#accordion").accordion({
+            collapsible: true
+        });
+    });
+</script>
+<h2>Testaccordion</h2>
+<div class="demo">
+  <div id="accordion">
+  <h3><a href="#">C-Sharpcorner Home</a></h3>
+  <div>
+<p>This Section Enables you to access C-Sharpcorner Home Page.</p>
+            <a href="http://www.c-sharpcorner.com">Click Here</a>
+</div> 
+<h3><a href="#">Forum</a></h3>
+<div>
+<p>This section allows you to access C-sharpcorner forum section.
+</p>
+<a href="http://www.c-sharpcorner.com/Forums/">Click Here For Forum</a>        
+</div>
+<h3><a href="#">Latest 50</a></h3>
+<div>
+<p>This sections enables you to access c-sharpcorner currentactive posts.</p>
+<a href="http://www/c-sharpcorner.com/forums/CurrentActivePosts.aspx">Latest 50</a>
+</div>
+<h3><a href="#">Sub-Sections</a></h3>
+<div>
+<p>This section enables you to access another links of c-sharpcorner</p>
+<ul>
+<li><a href="http://www.c-sharpcorner.com/Videos/">Videos</a></li>
+<li><a href="http://www.c-sharpcorner.com/Downloads/" />Downloads</li>
+<li><a href="http://www.c-sharpcorner.com/Blogs/">Blogs</a></li>
+</ul>
+</div>
+</div>
+</div>

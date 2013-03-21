@@ -1,0 +1,36 @@
+﻿@model FinalWebAPI.Models.NewEmployee
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>NewEmployee</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.EmpName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.EmpName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.EmpDepartment)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.EmpDepartment)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.EmpMobile)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.EmpMobile)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

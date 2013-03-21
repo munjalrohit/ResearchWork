@@ -1,0 +1,39 @@
+﻿@model FinalWebAPI.Models.NewEmployee
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>NewEmployee</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.EmpName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.EmpName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.EmpDepartment)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.EmpDepartment)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.EmpMobile)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.EmpMobile)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

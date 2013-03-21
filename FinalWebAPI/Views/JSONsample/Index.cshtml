@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<input id="btnGetPersons" type="button" value="Get Persons" />
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnGetPersons').click(function () {
+            $.getJSON("/JSONsample/GetJsondata", null, function (data) {
+                var div = $('#ajaxDiv');
+                div.html("<br/> " + "Persons received from server: " + "<br/>");
+                $.each(data, function (i, item) {
+                    printPerson(div, item);
+                });
+            });
+        });
+    });
+
+    function printPerson(div, item) {
+        div.append("<br/>" + "FName: " + item.FirstName + ", LName: " + item.LastName);
+        $.each(item.Addresses, function (i, addr) {
+            printAddress(div, addr);
+        });
+    }
+
+    function printAddress(div, item) {
+        div.append("<br/>" + "   " + "Line1: " + item.Line1);
+    }
+
+    $(document).ready(function () {
+        $('#btnPost').click(function () {
+            var enteredData = $('#inp').val();
+            $.post("/JSONsample/PostExample", { count: enteredData }, function (data) {
+                $('#ajaxDiv').text(data.Text);
+            }, "json");
+        });
+    });
+
+
+
+</script>
+<h2>Index</h2>
+ <div id="ajaxDiv">
+    </div>
+    Enter count:
+<input type="text" id="inp" />
+<input type="button" value="Fire a post request" id="btnPost" />
+

@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ResAndDevModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ResAndDevModelStoreContainer">
+          <EntitySet Name="EmployeeFinal" EntityType="ResAndDevModel.Store.EmployeeFinal" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="IDList" EntityType="ResAndDevModel.Store.IDList" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="LoginUser" EntityType="ResAndDevModel.Store.LoginUser" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Order" EntityType="ResAndDevModel.Store.Order" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OrderDetail" EntityType="ResAndDevModel.Store.OrderDetail" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TestModelPrice" EntityType="ResAndDevModel.Store.TestModelPrice" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="users" EntityType="ResAndDevModel.Store.users" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_OrderDetail_Order" Association="ResAndDevModel.Store.FK_OrderDetail_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="OrderDetail" EntitySet="OrderDetail" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="EmployeeFinal">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="EmpName" Type="varchar" MaxLength="500" />
+          <Property Name="EmpDepartment" Type="varchar" MaxLength="500" />
+          <Property Name="EmpMobile" Type="int" />
+        </EntityType>
+        <EntityType Name="IDList">
+          <Key>
+            <PropertyRef Name="BatchID" />
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="BatchID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OrderID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LoginUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="RegDate" Type="datetime" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderTitle" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="CustomerName" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="TransactionDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="OrderDetailID" />
+          </Key>
+          <Property Name="OrderDetailID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderID" Type="int" Nullable="false" />
+          <Property Name="Cost" Type="money" Nullable="false" />
+          <Property Name="ItemName" Type="nvarchar" Nullable="false" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="TestModelPrice">
+          <Key>
+            <PropertyRef Name="Sno" />
+          </Key>
+          <Property Name="Sno" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Model" Type="varchar" MaxLength="100" />
+          <Property Name="Price" Type="decimal" Scale="2" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" Nullable="false" />
+          <Property Name="EmailID" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Password" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="FirstName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="JoinedDate" Type="datetime" Nullable="false" />
+          <Property Name="usrImage" Type="image" />
+        </EntityType>
+        <Association Name="FK_OrderDetail_Order">
+          <End Role="Order" Type="ResAndDevModel.Store.Order" Multiplicity="1" />
+          <End Role="OrderDetail" Type="ResAndDevModel.Store.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="getprice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="InsertModel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Model" Type="varchar" Mode="In" />
+          <Parameter Name="Price" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="SearchTables" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Tablenames" Type="varchar" Mode="In" />
+          <Parameter Name="SearchStr" Type="nvarchar" Mode="In" />
+          <Parameter Name="GenerateSQLOnly" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="UpdateModelPrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="bigint" Mode="In" />
+          <Parameter Name="Price" Type="decimal" Mode="In" />
+        </Function>
+        <!--Errors Found During Generation:
+      warning 6013: The table/view 'ResAndDev.dbo.Employee' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+      
+      <EntityType Name="Employee">
+        <Property Name="Emp_id" Type="varchar" MaxLength="50" />
+        <Property Name="Emp_name" Type="varchar" MaxLength="50" />
+        <Property Name="Emp_Desig" Type="varchar" MaxLength="50" />
+        <Property Name="Emp_sal" Type="varchar" MaxLength="50" />
+      </EntityType>-->
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ResAndDevModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="ResAndDevEntitiesNEW" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EmployeeFinals" EntityType="ResAndDevModel.EmployeeFinal" />
+          <EntitySet Name="IDLists" EntityType="ResAndDevModel.IDList" />
+          <EntitySet Name="LoginUsers" EntityType="ResAndDevModel.LoginUser" />
+          <EntitySet Name="Orders" EntityType="ResAndDevModel.Order" />
+          <EntitySet Name="OrderDetails" EntityType="ResAndDevModel.OrderDetail" />
+          <EntitySet Name="TestModelPrices" EntityType="ResAndDevModel.TestModelPrice" />
+          <EntitySet Name="users" EntityType="ResAndDevModel.user" />
+          <AssociationSet Name="FK_OrderDetail_Order" Association="ResAndDevModel.FK_OrderDetail_Order">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <FunctionImport Name="getprice" ReturnType="Collection(ResAndDevModel.GetPriceOuput)" />
+        </EntityContainer>
+        <EntityType Name="EmployeeFinal">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="EmpName" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="EmpDepartment" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="EmpMobile" Type="Int32" />
+        </EntityType>
+        <EntityType Name="IDList">
+          <Key>
+            <PropertyRef Name="BatchID" />
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="BatchID" Type="Guid" Nullable="false" />
+          <Property Name="OrderID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LoginUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="RegDate" Type="DateTime" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderTitle" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="TransactionDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="OrderDetails" Relationship="ResAndDevModel.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="OrderDetailID" />
+          </Key>
+          <Property Name="OrderDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderID" Type="Int32" Nullable="false" />
+          <Property Name="Cost" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="ItemName" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Order" Relationship="ResAndDevModel.FK_OrderDetail_Order" FromRole="OrderDetail" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="TestModelPrice">
+          <Key>
+            <PropertyRef Name="Sno" />
+          </Key>
+          <Property Name="Sno" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Model" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" />
+          <Property Name="EmailID" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="JoinedDate" Type="DateTime" Nullable="false" />
+          <Property Name="usrImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_OrderDetail_Order">
+          <End Role="Order" Type="ResAndDevModel.Order" Multiplicity="1" />
+          <End Role="OrderDetail" Type="ResAndDevModel.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="GetPriceOuput">
+          <Property Type="String" Name="Model" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="Price" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="Extra" Nullable="false" MaxLength="5" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ResAndDevModelStoreContainer" CdmEntityContainer="ResAndDevEntitiesNEW">
+          <EntitySetMapping Name="EmployeeFinals"><EntityTypeMapping TypeName="ResAndDevModel.EmployeeFinal"><MappingFragment StoreEntitySet="EmployeeFinal">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+            <ScalarProperty Name="EmpDepartment" ColumnName="EmpDepartment" />
+            <ScalarProperty Name="EmpMobile" ColumnName="EmpMobile" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="IDLists"><EntityTypeMapping TypeName="ResAndDevModel.IDList"><MappingFragment StoreEntitySet="IDList">
+            <ScalarProperty Name="BatchID" ColumnName="BatchID" />
+            <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="LoginUsers"><EntityTypeMapping TypeName="ResAndDevModel.LoginUser"><MappingFragment StoreEntitySet="LoginUser">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Username" ColumnName="Username" />
+            <ScalarProperty Name="Password" ColumnName="Password" />
+            <ScalarProperty Name="RegDate" ColumnName="RegDate" />
+            <ScalarProperty Name="Email" ColumnName="Email" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Orders"><EntityTypeMapping TypeName="ResAndDevModel.Order"><MappingFragment StoreEntitySet="Order">
+            <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+            <ScalarProperty Name="OrderTitle" ColumnName="OrderTitle" />
+            <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+            <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="OrderDetails"><EntityTypeMapping TypeName="ResAndDevModel.OrderDetail"><MappingFragment StoreEntitySet="OrderDetail">
+            <ScalarProperty Name="OrderDetailID" ColumnName="OrderDetailID" />
+            <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+            <ScalarProperty Name="Cost" ColumnName="Cost" />
+            <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="TestModelPrices"><EntityTypeMapping TypeName="ResAndDevModel.TestModelPrice"><MappingFragment StoreEntitySet="TestModelPrice">
+            <ScalarProperty Name="Sno" ColumnName="Sno" />
+            <ScalarProperty Name="Model" ColumnName="Model" />
+            <ScalarProperty Name="Price" ColumnName="Price" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="users"><EntityTypeMapping TypeName="ResAndDevModel.user"><MappingFragment StoreEntitySet="users">
+            <ScalarProperty Name="userID" ColumnName="userID" />
+            <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+            <ScalarProperty Name="Password" ColumnName="Password" />
+            <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+            <ScalarProperty Name="LastName" ColumnName="LastName" />
+            <ScalarProperty Name="JoinedDate" ColumnName="JoinedDate" />
+            <ScalarProperty Name="usrImage" ColumnName="usrImage" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="getprice" FunctionName="ResAndDevModel.Store.getprice">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ResAndDevModel.GetPriceOuput">
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Extra" ColumnName="Extra" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Model1">
+        <EntityTypeShape EntityType="ResAndDevModel.EmployeeFinal" Width="1.5" PointX="0.75" PointY="3.75" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="ResAndDevModel.IDList" Width="1.5" PointX="2.75" PointY="3.75" Height="1.4033821614583335" IsExpanded="true" />
+        <EntityTypeShape EntityType="ResAndDevModel.LoginUser" Width="1.5" PointX="4.75" PointY="3.75" Height="1.9802864583333322" IsExpanded="true" />
+        <EntityTypeShape EntityType="ResAndDevModel.Order" Width="1.5" PointX="0.75" PointY="0.875" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="ResAndDevModel.OrderDetail" Width="1.5" PointX="3" PointY="0.875" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="ResAndDevModel.TestModelPrice" Width="1.5" PointX="5.75" PointY="0.75" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ResAndDevModel.user" Width="1.5" PointX="0.75" PointY="6.75" Height="2.3648893229166674" IsExpanded="true" />
+        <AssociationConnector Association="ResAndDevModel.FK_OrderDetail_Order" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="1.8651432291666668" />
+          <ConnectorPoint PointX="3" PointY="1.8651432291666668" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
